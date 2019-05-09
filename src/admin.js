@@ -1,105 +1,130 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
+import Player from './player'
+import Boss from './boss'
 
 export default class Admin extends Component {
 
     state = {
-        boss: {
+        user: {
+            type: '',
             nameInProgress: '',
             imageInProgress: '',
             healthInProgress: 0
         },
-        player: {
-            nameInProgress: '',
-            imageInProgress: '',
-            playerHealth: 50
-        }
+        users: []
     }
-//boss params
+
+    //boss params
     bossNameInProgress = (e) => {
         this.setState({
-            boss: {
+            user: {
+                type: 'boss',
                 nameInProgress: e.target.value,
-                imageInProgress: this.state.boss.imageInProgress,
-                healthInProgress: this.state.boss.healthInProgress
+                imageInProgress: this.state.user.imageInProgress,
+                healthInProgress: this.state.user.healthInProgress
             }
         })
     }
     bossImageInProgress = (e) => {
         this.setState({
-            boss: {
-                nameInProgress: this.state.boss.nameInProgress,
+            user: {
+                type: 'boss',
+                nameInProgress: this.state.user.nameInProgress,
                 imageInProgress: e.target.value,
-                healthInProgress: this.state.boss.healthInProgress
+                healthInProgress: this.state.user.healthInProgress
             }
         })
     }
     bossHpInProgress = (e) => {
         this.setState({
-            boss: {
-                nameInProgress: this.state.boss.nameInProgress,
-                imageInProgress: this.state.boss.imageInProgress,
+            user: {
+                type: 'boss',
+                nameInProgress: this.state.user.nameInProgress,
+                imageInProgress: this.state.user.imageInProgress,
                 healthInProgress: e.target.value
             }
         })
     }
-//player params
+    //player params
     playerNameInProgress = (e) => {
         this.setState({
-            player: {
+            user: {
+                type: 'player',
                 nameInProgress: e.target.value,
-                imageInProgress: this.state.player.imageInProgress
+                imageInProgress: this.state.user.imageInProgress,
+                healthInProgress: 50
             }
         })
     }
     playerImageInProgress = (e) => {
         this.setState({
-            player: {
-                nameInProgress: this.state.player.nameInProgress,
-                imageInProgress: e.target.value
+            user: {
+                type: 'player',
+                nameInProgress: this.state.user.nameInProgress,
+                imageInProgress: e.target.value,
+                healthInProgress: 50
             }
         })
     }
-//submit for boss
+
+    //submit for boss
     submitBoss = async (e) => {
         e.preventDefault()
         try {
-        await console.log(this.state.boss)
+            await fetch('http://localhost:8888/users', {
+                method: 'post',
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                },
+                body: JSON.stringify(this.state.user)
+            })
+            console.log(this.state.user)
         }
         catch (err) {
             console.log(err)
         }
     }
-//submit for player
+    //submit for player
     submitPlayer = async (e) => {
         e.preventDefault()
-        try{
-            await console.log(this.state.player)
+        try {
+            await fetch('http://localhost:8888/users', {
+                method: 'post',
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                },
+                body: JSON.stringify(this.state.user)
+            })
+            console.log(this.state.user)
         }
         catch (err) {
             console.log(err)
         }
     }
- 
 
-    render() {
-        <div>
-            <section>
-                <form>
-                    <h1>New Boss</h1>
-                    <span>Name: <input onChange={this.bossNameInProgress} size="20" type="text" value={this.state.boss.nameInProgress}/></span>
-                    <span>Image URL: <input onChange={this.bossImageInProgress} size="20" type="url" value={this.state.boss.imageInProgress}/></span>
-                    <span>Total HP: <input onChange={this.bossHpInProgress} size="20" type="number" value={this.state.boss.bossHpInProgress}/></span>
-                </form>
-                <button>Create New Boss</button>
-            </section>
-            <section>
-                <form>
-                    <h1>New Player</h1>
-                    <span>Name: <input onChange={this.playerNameInProgress} size="20" type="text" value={this.state.player.nameInProgress}/></span>
-                    <span>Image URL: <input onChange={this.playerImageInProgress} size="20" type="url" value={this.state.player.imageInProgress}/></span>
-                </form>
-                <button>Create New Player</button>
-            </section>
-        </div>
+    componentDidMount = async (a) => {
+        try {
+            const res = await fetch('http://localhost:8888/users')
+            const user = await res.json()
+            console.log(user)
+            this.setState({ users: user })
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+
+    render = () => {
+        return (
+            <Fragment>
+                <Boss bossHpInProgress={this.bossHpInProgress} bossImageInProgress={this.bossImageInProgress} bossNameInProgress={this.bossNameInProgress} submitBoss={this.submitBoss} />
+                <Player playerNameInProgress={this.playerNameInProgress} playerImageInProgress={this.playerImageInProgress} submitPlayer={this.submitPlayer} />
+                <section>
+                    <form>
+                        <h1>Set Card Draw</h1>
+                    </form>
+                </section>
+            </Fragment>
+        )
     }
 }

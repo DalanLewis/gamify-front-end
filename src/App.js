@@ -1,26 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import { BrowserRouter as Router, Route, Switch, } from 'react-router-dom'
+import Admin from './admin'
+import Battlefield from './battlefield'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+
+
+class App extends Component {    
+
+    renderAdmin = () => {
+        return (
+            <Admin />
+        )
+    }
+
+    renderBattlefield = () => {
+      return (
+        <Battlefield />
+      )
+    }
+
+
+    render = () => {
+        return (
+            <Router>
+                <Switch>
+                    <Route path="/admin" component={this.renderAdmin} />
+                    <Route path="/" component={this.renderBattlefield}/>
+                </Switch>
+            </Router>
+        )
+    }
 }
-
 export default App;
