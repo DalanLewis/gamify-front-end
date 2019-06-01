@@ -1,0 +1,58 @@
+[
+    {
+        "title": "Lightning Bolt!",
+        "image": "{url}",
+        "description": "You feel the urge to shout 'Lightning Bolt!' at the top of your lungs as you play this card.",
+        "damage": "true",
+        "value": "15"
+    },
+    {
+        "title": "Give 'em a Left!",
+        "image": "{url}",
+        "description": "My Pappy always said a solid Left Hook could solve all of your problems. ",
+        "damage": "true",
+        "value": "20"
+    },
+    {
+        "title": "Stick 'em with the pointy end.",
+        "image": "{url}",
+        "description": "Good advice when you give someone their first weapon.",
+        "damage": "true",
+        "value": "5"
+    },
+    {
+        "title": "Pay day!",
+        "image": "{url}",
+        "description": "Finally I can get some food!",
+        "damage": "false",
+        "value": "25"
+    },
+    {
+        "title": "Abandoned Crossbow",
+        "image": "{url}",
+        "description": "You find an Abandoned Crossbow, with a single bolt in it. Make it count!",
+        "damage": "true",
+        "value": "14"
+    },
+    {
+        "title": "Chair Bat",
+        "image": "{url}",
+        "description": "You hit the boss with your work chair. If you stand for the rest of the day your supervisor will give you an extra card draw.",
+        "damage": "true",
+        "value": "15"
+    },
+    {
+        "title": "Oh.. Thats Gum.",
+        "image": "{url}",
+        "description": "You find some bubble gum stuck to the bottom of your desk.",
+        "damage": "false",
+        "value": "7"
+    },
+    {
+        "title": "Snickers",
+        "image": "{url}",
+        "description": "Take your break as you play this card, and eat a snickers. Doing this grants you no bonuses. (except a break and a snickers)",
+        "damage": "false",
+        "value": "15"
+    }
+]

@@ -3,11 +3,13 @@ import { BrowserRouter as Router, Route, Switch, } from 'react-router-dom'
 import Admin from './admin'
 import Battlefield from './battlefield'
 import Dropdown from './dropdown'
+import Hand from './hand'
 
 class App extends Component {
 
   state = {
     user: {
+      _id: '',
       type: '',
       nameInProgress: '',
       imageInProgress: '',
@@ -79,7 +81,6 @@ class App extends Component {
     try {
       const res = await fetch('http://localhost:8888/users')
       const users = await res.json()
-      console.log(users)
       this.setState({ users })
     }
     catch (err) {
@@ -101,17 +102,46 @@ class App extends Component {
     }
   }
 
+  renderHand = () => {
+    if (this.state.user.cards) {
+      return this.state.user.cards
+      .map((hand) => 
+        <Hand 
+        hand={this.state.cards}
+        />
+      )
+    }
+  }
+
   selectPlayer = (e) => {
     let player = this.state.users.filter((player) => player.nameInProgress === e.target.value)
-    this.setState({
-      user: player[0]
-    })
-    console.log(player[0])
+    if (e.target.value === 'Select Player') {
+      this.setState({
+        user: {
+          type: 'boss',
+          nameInProgress: 'No Player Selected',
+          imageInProgress: this.state.user.imageInProgress,
+          healthInProgress: 50,
+          cards: this.state.cards,
+          draws: this.state.draws
+        }
+      })
+    }
+    else {
+      this.setState({
+        user: player[0]
+      })
+    }
   }
+
+  // componentDidUpdate = () => {
+  //   console.log(this.state.user);
+  // }
 
   setCardsToDraw = (e) => {
     this.setState({
       user: {
+        _id: this.state.user._id,
         type: this.state.user.type,
         nameInProgress: this.state.user.nameInProgress,
         imageInProgress: this.state.user.imageInProgress,
@@ -121,6 +151,7 @@ class App extends Component {
       }
     })
   }
+
 
   renderAdmin = () => {
     return (
@@ -141,7 +172,11 @@ class App extends Component {
 
   renderBattlefield = () => {
     return (
-      <Battlefield />
+      <Battlefield 
+      renderDropdown={this.renderDropdown}
+      selectPlayer={this.selectPlayer}
+      state={this.state}
+      />
     )
   }
 
