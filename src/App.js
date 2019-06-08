@@ -13,9 +13,9 @@ class App extends Component {
       type: '',
       nameInProgress: '',
       imageInProgress: '',
-      healthInProgress: 0,
-      cards: [],
-      draws: 0
+      healthInProgress: null,
+      hand: [],
+      draws: null
     },
     users: []
   }
@@ -51,16 +51,16 @@ class App extends Component {
       }
     })
   }
-  //player params
+  //set player params
   playerNameInProgress = (e) => {
     this.setState({
       user: {
         type: 'player',
         nameInProgress: e.target.value,
         imageInProgress: this.state.user.imageInProgress,
-        healthInProgress: 50,
-        cards: this.state.cards,
-        draws: this.state.draws
+        healthInProgress: 100,
+        hand: this.state.user.hand,
+        draws: this.state.user.draws
       }
     })
   }
@@ -70,13 +70,43 @@ class App extends Component {
         type: 'player',
         nameInProgress: this.state.user.nameInProgress,
         imageInProgress: e.target.value,
-        healthInProgress: 50,
-        cards: this.state.cards,
-        draws: this.state.draws
+        healthInProgress: 100,
+        hand: this.state.user.hand,
+        draws: this.state.user.draws
       }
     })
   }
 
+  setHand = () => {
+    this.setState({
+      user: {
+        type: this.state.user.type,
+        nameInProgress: this.state.user.nameInProgress,
+        imageInProgress: this.state.user.imageInProgress,
+        healthInProgress: this.state.user.healthInProgress,
+        hand: [],
+        draws: this.state.user.draws
+      }
+    })
+  }
+
+  removeCardFromHand = (e) => {
+    if (e.length < this.state.user.hand.length) {
+      this.setState({
+        user: {
+          _id: this.state.user._id,
+          type: this.state.user.type,
+          nameInProgress: this.state.user.nameInProgress,
+          imageInProgress: this.state.user.imageInProgress,
+          healthInProgress: this.state.user.healthInProgress,
+          hand: e,
+          draws: this.state.user.draws
+        }
+      })
+    }
+    this.updateHand();
+  }
+  
   userFetch = async () => {
     try {
       const res = await fetch('http://localhost:8888/users')
@@ -92,6 +122,25 @@ class App extends Component {
     this.userFetch()
   }
 
+  updateHand = async () => {
+    const id = this.state.user._id;
+    if (this.state.user.nameInProgress !== 'No Player Selected') {
+        try {
+            await fetch('http://localhost:8888/users/' + id, {
+                method: 'put',
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                },
+                body: JSON.stringify(this.state.user)
+            })
+            // console.log(this.props.state.user)
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+}
+
   renderDropdown = (src) => {
     if (this.state.users) {
       return this.state.users
@@ -102,15 +151,27 @@ class App extends Component {
     }
   }
 
-  renderHand = () => {
-    if (this.state.user.cards) {
-      return this.state.user.cards
-      .map((hand) => 
-        <Hand 
-        hand={this.state.cards}
-        />
-      )
+  renderFullDropdown = () => {
+    if (this.state.users) {
+      return this.state.users
+        .map((target) =>
+          <Dropdown player={target} key={target._id} state={this.state} />
+        )
     }
+  }
+
+  renderHand = () => {
+    return (
+      <Hand
+        hand={this.state.user.hand}
+        cardDidDraw={this.cardDidDraw}
+        state={this.state}
+        renderDropdown={this.renderFullDropdown}
+        setHand={this.setHand}
+        componentDidMount={this.componentDidMount}
+        removeCardFromHand={this.removeCardFromHand}
+      />
+    )
   }
 
   selectPlayer = (e) => {
@@ -118,11 +179,11 @@ class App extends Component {
     if (e.target.value === 'Select Player') {
       this.setState({
         user: {
-          type: 'boss',
+          type: null,
           nameInProgress: 'No Player Selected',
           imageInProgress: this.state.user.imageInProgress,
-          healthInProgress: 50,
-          cards: this.state.cards,
+          healthInProgress: null,
+          hand: this.state.user.hand,
           draws: this.state.draws
         }
       })
@@ -134,10 +195,18 @@ class App extends Component {
     }
   }
 
-  // componentDidUpdate = () => {
-  //   console.log(this.state.user);
-  // }
+  selectPlayerButton = (e) => {
+    let player = this.state.users.filter((player) => player.nameInProgress === e.target.value)
+    this.setState({
+      user: player[0]
+    })
+    console.log(this.state)
+  }
 
+  componentDidUpdate = () => {
+    console.log(this.state);
+  }
+  //draws
   setCardsToDraw = (e) => {
     this.setState({
       user: {
@@ -146,13 +215,26 @@ class App extends Component {
         nameInProgress: this.state.user.nameInProgress,
         imageInProgress: this.state.user.imageInProgress,
         healthInProgress: this.state.user.healthInProgress,
-        cards: this.state.user.cards,
+        hand: this.state.user.hand,
         draws: e.target.value
       }
     })
   }
 
-
+  cardDidDraw = () => {
+    this.setState({
+      user: {
+        _id: this.state.user._id,
+        type: this.state.user.type,
+        nameInProgress: this.state.user.nameInProgress,
+        imageInProgress: this.state.user.imageInProgress,
+        healthInProgress: this.state.user.healthInProgress,
+        hand: this.state.user.hand,
+        draws: this.state.user.draws - 1
+      }
+    })
+  }
+  //render
   renderAdmin = () => {
     return (
       <Admin
@@ -172,10 +254,13 @@ class App extends Component {
 
   renderBattlefield = () => {
     return (
-      <Battlefield 
-      renderDropdown={this.renderDropdown}
-      selectPlayer={this.selectPlayer}
-      state={this.state}
+      <Battlefield
+        selectPlayerButton={this.selectPlayerButton}
+        renderDropdown={this.renderDropdown}
+        renderHand={this.renderHand}
+        selectPlayer={this.selectPlayer}
+        state={this.state}
+        componentDidMount={this.componentDidMount}
       />
     )
   }

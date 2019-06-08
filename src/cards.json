@@ -54,5 +54,83 @@
         "description": "Take your break as you play this card, and eat a snickers. Doing this grants you no bonuses. (except a break and a snickers)",
         "damage": "false",
         "value": "15"
+    },
+    {
+        "title": "Mace (win dude!)",
+        "image": "https://upload.wikimedia.org/wikipedia/en/thumb/b/bf/Mace_Windu.png/220px-Mace_Windu.png",
+        "description": "You hit them with Lazer Mace",
+        "damage": "true",
+        "value": "35"
+    },
+    {
+        "title": "Pokemon Bandaid",
+        "image": " https://media.rainpos.com/4831/audino.jpg",
+        "description": "Audino kisses you, and it’s kinda awkward",
+        "damage": "false",
+        "value": "10"
+    },
+    {
+        "title": "Love Tap",
+        "image": "https://media.rainpos.com/4831/love_tap.png",
+        "description": "FEEL my Love",
+        "damage": "true",
+        "value": "10"
+    },
+    {
+        "title": "Lau’s Battle Shout",
+        "image": "https://media.rainpos.com/4831/1551456423842.jpg",
+        "description": "Gaiii-Neenga",
+        "damage": "true",
+        "value": "15"
+    },
+    {
+        "title": "Wiff!",
+        "image": "https://media0.giphy.com/media/q1lG6m3SCLHe8/giphy.gif",
+        "description": "Tripple... PUNCH!! --- Dangit",
+        "damage": "true",
+        "value": "0"
+    },
+    {
+        "title": "The Thought Counts",
+        "image": "https://media.rainpos.com/4831/love_tap.png",
+        "description": "I HEAL YOU! --- or not",
+        "damage": "false",
+        "value": "1"
+    },
+    {
+        "title": "ShoryouKEN!!",
+        "image": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/254b229c-7013-4e01-ac3a-9e6124f7edee/db4pye2-f324afde-9c98-4b30-a2db-6cc7ffb38e5c.png/v1/fill/w_730,h_1095,strp/shoryuken_by_gad_by_dreamgate_gad_db4pye2-pre.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTUzNyIsInBhdGgiOiJcL2ZcLzI1NGIyMjljLTcwMTMtNGUwMS1hYzNhLTllNjEyNGY3ZWRlZVwvZGI0cHllMi1mMzI0YWZkZS05Yzk4LTRiMzAtYTJkYi02Y2M3ZmZiMzhlNWMucG5nIiwid2lkdGgiOiI8PTEwMjQifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.guyWH38ULzM1nWUQtW6de581fDFRhnSdj7pYnSJlXrc",
+        "description": "I win.",
+        "damage": "true",
+        "value": "100"
+    },
+    {
+        "title": "Rabbit Punch",
+        "image": "https://media1.tenor.com/images/7f5f6f9878650bed736369d60259e567/tenor.gif?itemid=8403107",
+        "description": "That’s what you get for leaving the back of your head vulnerable.",
+        "damage": "true",
+        "value": "20"
+    },
+    {
+        "title": "Kidney Blast",
+        "image": "https://media.giphy.com/media/2dyGHlA6bFy9y/giphy.gif",
+        "description": "No worries, you’ve got a spare.",
+        "damage": "true",
+        "value": "20"
+    },
+    {
+        "title": "HealSlap",
+        "image": "https://media1.tenor.com/images/df8cb86315f6ae85ab607b127958f48c/tenor.gif?itemid=12956140",
+        "description": "Think healing is fun? Take THAT!",
+        "damage": "false",
+        "value": "18"
+    },
+    {
+        "title": "Taco Belt",
+        "image": "{url}",
+        "description": "You won the random taco spin again. Good for you. Now, take the belt and put it somewhere on your desk and let it mock you while you work through out the week.",
+        "damage": "true",
+        "value": "40"
     }
+    
 ]

@@ -1,25 +1,33 @@
 import React, { Component } from 'react'
 import Users from './users'
-import Hand from './hand'
+import Players from './players'
+import Bossman from './bossLive'
+// import Hand from './hand'
+
+
 
 export default class Battlefield extends Component {
 
     state = {
         user: {
+            _id: '',
+            type: '',
             nameInProgress: '',
             imageInProgress: '',
-            healthInProgress: '',
-            type: ''
+            healthInProgress: null,
+            hand: [],
+            draws: null
+        },
+        boss: {
+
         },
         users: []
     }
 
     componentDidMount = async (a) => {
-
         try {
             const res = await fetch('http://localhost:8888/users')
             const user = await res.json()
-            console.log(user)
             this.setState({ users: user })
         }
         catch (err) {
@@ -27,6 +35,31 @@ export default class Battlefield extends Component {
         }
     }
 
+    renderBoss = () => {
+        if (this.state.users) {
+            this.state.users.filter((boss) => { return boss.type === 'boss' })
+                .map((boss) => <Bossman
+                    name={boss.nameInProgress}
+                    hp={boss.healthInProgress}
+                    image={boss.imageInProgress}
+                />)
+
+        }
+    }
+
+    renderPlayers = () => {
+        this.componentDidMount();
+        if (this.state.users) {
+            return this.state.users.filter((user) => { return user.type === 'player' })
+                .map((player, index) => <Players
+                    selectPlayer={this.props.selectPlayerButton}
+                    player={player}
+                    key={index}
+                />)
+        }
+    }
+
+   
     // renderUsers = () => {
     //     if (this.state.user.nameInProgress) {
     //         return this.state.user.map(
@@ -38,12 +71,17 @@ export default class Battlefield extends Component {
 
     render = () => {
         return (
-            <div>
-                <h1>Players</h1>
-                <select onChange={this.props.selectPlayer}>
-                    <option value={null}>Select Player</option>
+            <div className="ml-4 mr-4">
+
+                <h3>Players</h3>
+                <div className="d-flex justify-content-around">
+                    {this.renderPlayers()}
+                </div>
+
+                {/* <select onChange={this.props.selectPlayer}>
+                    <option value={null} className="container">Select Player</option>
                     {this.props.renderDropdown('battlefield')}
-                </select>
+                </select> */}
                 <Users
                     key={this.props.state.user.nameInProgress}
                     name={this.props.state.user.nameInProgress}
@@ -51,10 +89,9 @@ export default class Battlefield extends Component {
                     health={this.props.state.user.healthInProgress}
                     type={this.props.state.user.type}
                 />
+
                 <div>
-                    <br />
-                    <br />
-                    <Hand />
+                    {this.props.renderHand()}
                 </div>
             </div>
 

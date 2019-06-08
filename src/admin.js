@@ -47,7 +47,7 @@ export default class Admin extends Component {
                     },
                     body: JSON.stringify(this.props.state.user)
                 }) 
-                console.log(this.props.state.user)
+                // console.log(this.props.state.user)
             }
             catch (err) {
                 console.log(err)
