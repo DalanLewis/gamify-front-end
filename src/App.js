@@ -17,7 +17,21 @@ class App extends Component {
       hand: [],
       draws: null
     },
-    users: []
+    users: [],
+    boss: {
+      _id: '',
+      type: '',
+      nameInProgress: '',
+      imageInProgress: '',
+      healthInProgress: null,
+    },
+    card: {
+      title: null,
+      image: null,
+      description: '',
+      damage: true,
+      value: null,
+  },
   }
 
   //boss params
@@ -106,12 +120,13 @@ class App extends Component {
     }
     this.updateHand();
   }
-  
+
   userFetch = async () => {
     try {
       const res = await fetch('http://localhost:8888/users')
       const users = await res.json()
       this.setState({ users })
+    
     }
     catch (err) {
       console.log(err)
@@ -119,27 +134,27 @@ class App extends Component {
   }
 
   componentDidMount = () => {
-    this.userFetch()
+    this.userFetch();
   }
 
   updateHand = async () => {
     const id = this.state.user._id;
     if (this.state.user.nameInProgress !== 'No Player Selected') {
-        try {
-            await fetch('http://localhost:8888/users/' + id, {
-                method: 'put',
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8"
-                },
-                body: JSON.stringify(this.state.user)
-            })
-            // console.log(this.props.state.user)
-        }
-        catch (err) {
-            console.log(err)
-        }
+      try {
+        await fetch('http://localhost:8888/users/' + id, {
+          method: 'put',
+          headers: {
+            "Content-type": "application/json; charset=UTF-8"
+          },
+          body: JSON.stringify(this.state.user)
+        })
+        // console.log(this.props.state.user)
+      }
+      catch (err) {
+        console.log(err)
+      }
     }
-}
+  }
 
   renderDropdown = (src) => {
     if (this.state.users) {
@@ -170,8 +185,38 @@ class App extends Component {
         setHand={this.setHand}
         componentDidMount={this.componentDidMount}
         removeCardFromHand={this.removeCardFromHand}
+        showSelectedCard={this.showSelectedCard}
+        hideCard={this.hideCard}
       />
     )
+  }
+
+  showBoss = () => {
+    let bossman = this.state.users.filter((user) => user.type === 'boss')
+    this.setState({
+      boss: bossman[0]
+    })
+  }
+
+  showSelectedCard = async (card) => {
+    await this.setState({
+      card: {
+          title: card.title,
+          image: card.image,
+          description: card.description,
+          damage: card.damage,
+          value: card.value
+      }
+    })
+    console.log(this.state)
+  }
+
+  hideCard = () => {
+    this.setState({
+      card: {
+        
+      }
+  })
   }
 
   selectPlayer = (e) => {
@@ -200,12 +245,13 @@ class App extends Component {
     this.setState({
       user: player[0]
     })
-    console.log(this.state)
+    this.showBoss();
+    // console.log(this.state)
   }
 
-  componentDidUpdate = () => {
-    console.log(this.state);
-  }
+  // componentDidUpdate = () => {
+  //   console.log(this.state);
+  // }
   //draws
   setCardsToDraw = (e) => {
     this.setState({

@@ -23,7 +23,7 @@ export default class Hand extends Component {
             healthInProgress: 0,
             hand: [],
             draws: 0
-        }
+        },
     }
 
 
@@ -123,12 +123,23 @@ export default class Hand extends Component {
             return this.props.hand.map((card, index) => <Card card={card} key={index} selectCard={this.selectCard} />)
     }
 
-    selectCard = (e) => {
-        let card = this.props.hand.filter((card) => card.title === e.target.value)
-        this.setState({
-            card: card[0]
-        })
-        console.log(this.state)
+    componentWillUnmount = () => {
+        let shown = this.state.card;
+        this.props.showSelectedCard(shown);
+        console.log(shown);
+    }
+
+    selectCard = async (e) => {
+        try {
+            let card = this.props.hand.filter((card) => card.title === e.target.value)
+            await this.setState({
+                card: card[0]
+            })
+            await this.componentWillUnmount();
+        }
+        catch (err) {
+            console.log(err)
+        }
     }
 
 
@@ -138,7 +149,7 @@ export default class Hand extends Component {
             return index !== idx
         })
         this.props.removeCardFromHand(result);
-        console.log(result)
+        // console.log(result)
     }
     //targets
     renderTargeting = () => {
@@ -193,16 +204,17 @@ export default class Hand extends Component {
         }
     }
 
-    playCardHelper = () => {
+    playCardHelper = async () => {
         if (this.props.state.user.healthInProgress >= 1) {
-            this.playCard();
+            await this.playCard();
+            this.props.hideCard();
         }
         else { return alert('You tried to play a card from beyond the grave... It was not very effective') }
     }
 
     playCard = async () => {
-        this.removeCard();
-        this.props.componentDidMount();
+        await this.removeCard();
+        await this.props.componentDidMount();
         let value = this.state.card.value;
         console.log('clicked')
         if (this.state.card.damage === "true") {
@@ -217,7 +229,7 @@ export default class Hand extends Component {
     }
 
     theLog = () => {
-        console.log(this.state)
+        console.log(this.state, this.props.state)
     }
 
     render = () => {
@@ -225,37 +237,23 @@ export default class Hand extends Component {
             <Fragment>
                 <div >
                     <div>
-                        <div className="row">
-                            <button onClick={this.theLog}>Loggg</button>
-                            <button onClick={this.removeCard}>Check</button>
-                            <h4 className="float-left">Selected card:</h4>
-                            <button onClick={this.drawCard}>Draw</button>
-                        </div>
                         <div>
-                            <div className="container d-flex justify-content-center">
-                                <div style={{ width: '16rem', height: 'auto' }} className="card">
-                                    <div className="card-body">
-                                        <h4 className="card-title">{this.state.card.title}</h4>
-                                        <figure>
-                                            <style dangerouslySetInnerHTML={{
-                                                __html: `.win {max-height: 320px;}`
-                                            }} />
-                                            <img max-width="100%" max-height="150px" className="win img-fluid d-flex justify-content-center" src={this.state.card.image} alt={this.state.card.title} />
-                                        </figure>
-                                        <h6>{this.state.card.description}</h6>
-                                        <ul className="card-text">{this.state.card.value}</ul>
-                                    </div>
-
-                                </div >
-                            </div>
-                        </div>
-                        <div className="float-left">
-                            {this.renderTargeting()}
+                            <div className="container">
+                                <div>
+                                    <button onClick={this.theLog}>Loggg</button>
+                                    <button onClick={this.removeCard}>Check</button>
+                                    <button onClick={this.drawCard}>Draw</button>
+                                </div>
+                            </div >
                         </div>
                     </div>
-
+                    <div className="container d-flex justify-content-center">
+                        {this.renderTargeting()}
+                    </div>
+                </div>
+                <div>
                     <footer>
-                        <h1>Hand</h1>
+                        <h3 className="d-flex justify-content-center">Hand</h3>
                         <div className="d-flex justify-content-center">
                             {this.renderCards()}
                         </div>

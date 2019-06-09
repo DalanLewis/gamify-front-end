@@ -4,13 +4,18 @@ export default class Users extends Component {
 
     render = () => {
         return (
-            <div className="card">
-                <div className="card-body d-flex" style={{ width: '27' }}>
-                    <h2>{this.props.name}</h2>
-                    <div>
-                        {this.props.health}
+            <div className="container d-flex float-left">
+                <div style={{ width: '16rem', height: 'auto' }} className="card">
+                    <div className="card-body">
+                        <h4 className="card-title">{this.props.name}</h4>
+                        <h2>{this.props.health}</h2>
+                        <figure>
+                            <style dangerouslySetInnerHTML={{
+                                __html: `.win {max-height: 320px;}`
+                            }} />
+                            <img max-width="100%" max-height="150px" className="win img-fluid d-flex justify-content-center" src={this.props.image} alt={this.props.name} />
+                        </figure>
                     </div>
-                    <img src={this.props.image} alt={this.props.name} />
                 </div>
             </div>
         )

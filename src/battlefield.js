@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Users from './users'
 import Players from './players'
 import Bossman from './bossLive'
+import Playcard from './playcard'
 // import Hand from './hand'
 
 
@@ -17,9 +18,6 @@ export default class Battlefield extends Component {
             healthInProgress: null,
             hand: [],
             draws: null
-        },
-        boss: {
-
         },
         users: []
     }
@@ -59,7 +57,7 @@ export default class Battlefield extends Component {
         }
     }
 
-   
+
     // renderUsers = () => {
     //     if (this.state.user.nameInProgress) {
     //         return this.state.user.map(
@@ -71,30 +69,39 @@ export default class Battlefield extends Component {
 
     render = () => {
         return (
-            <div className="ml-4 mr-4">
-
-                <h3>Players</h3>
+            <div className="ml-1 mr-1">
+                <h3 className="d-flex justify-content-center">Players</h3>
                 <div className="d-flex justify-content-around">
                     {this.renderPlayers()}
                 </div>
-
-                {/* <select onChange={this.props.selectPlayer}>
-                    <option value={null} className="container">Select Player</option>
-                    {this.props.renderDropdown('battlefield')}
-                </select> */}
-                <Users
-                    key={this.props.state.user.nameInProgress}
-                    name={this.props.state.user.nameInProgress}
-                    image={this.props.state.user.imageInProgress}
-                    health={this.props.state.user.healthInProgress}
-                    type={this.props.state.user.type}
-                />
-
+                <div className="container d-flex justiy-content-between border rounded" >
+                    <div className="container">
+                        <Users
+                            key={this.props.state.user.nameInProgress}
+                            name={this.props.state.user.nameInProgress}
+                            image={this.props.state.user.imageInProgress}
+                            health={this.props.state.user.healthInProgress}
+                            type={this.props.state.user.type}
+                        />
+                    </div>
+                    <div className="container">
+                        <Playcard
+                            state={this.props.state}
+                        />
+                    </div>
+                    <div className="container">
+                        <Bossman
+                            key={this.props.state.boss._id}
+                            name={this.props.state.boss.nameInProgress}
+                            image={this.props.state.boss.imageInProgress}
+                            health={this.props.state.boss.healthInProgress}
+                        />
+                    </div>
+                </div>
                 <div>
                     {this.props.renderHand()}
                 </div>
             </div>
-
         )
     }
 }
