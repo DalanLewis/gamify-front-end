@@ -37,7 +37,7 @@
     {
         "title": "Chair Bat",
         "image": "{url}",
-        "description": "You hit the boss with your work chair. If you stand for the rest of the day your supervisor will give you an extra card draw.",
+        "description": "You hit the boss with your work chair.",
         "damage": "true",
         "value": "15"
     },

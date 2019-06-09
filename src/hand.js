@@ -28,22 +28,6 @@ export default class Hand extends Component {
 
 
     //to api
-    // componentDidMount = async (a) => {
-    //     try {
-    //         const res = await fetch('http://localhost:8888/users')
-    //         const user = await res.json()
-    //         // console.log(this.props)
-    //         this.setState({ users: user })
-    //         // console.log(this.state)
-    //     }
-    //     catch (err) {
-    //         console.log(err)
-    //     }
-    // }
-
-    // keepOldUser = () => {
-    //     const target = 
-    // }
 
     updateCardsAndDraws = async () => {
         const id = this.props.state.user._id;
@@ -143,13 +127,23 @@ export default class Hand extends Component {
     }
 
 
-    removeCard = () => {
+    removeCard = async () => {
         let idx = this.props.hand.findIndex((card) => card.title === this.state.card.title);
         let result = this.props.hand.filter((card, index) => {
             return index !== idx
         })
         this.props.removeCardFromHand(result);
-        // console.log(result)
+    }
+    clearSelectedCard = () => {
+        this.setState({
+            card: {
+                title: null,
+                image: null,
+                description: null,
+                damage: true,
+                value: null
+            },
+        })
     }
     //targets
     renderTargeting = () => {
@@ -182,6 +176,7 @@ export default class Hand extends Component {
                 draws: this.state.user.draws
             }
         })
+        this.clearSelectedCard();
     }
 
     doTheHealing = (value) => {
@@ -198,6 +193,7 @@ export default class Hand extends Component {
                     draws: this.state.user.draws
                 }
             })
+            this.clearSelectedCard()
         }
         else {
             alert('good job, you just wasted a card!')
@@ -207,7 +203,7 @@ export default class Hand extends Component {
     playCardHelper = async () => {
         if (this.props.state.user.healthInProgress >= 1) {
             await this.playCard();
-            this.props.hideCard();
+            await this.props.hideCard();
         }
         else { return alert('You tried to play a card from beyond the grave... It was not very effective') }
     }
@@ -240,8 +236,8 @@ export default class Hand extends Component {
                         <div>
                             <div className="container">
                                 <div>
-                                    <button onClick={this.theLog}>Loggg</button>
-                                    <button onClick={this.removeCard}>Check</button>
+                                    {/* <button onClick={this.theLog}>Loggg</button> */}
+                                    {/* <button onClick={this.removeCard}>Check</button> */}
                                     <button onClick={this.drawCard}>Draw</button>
                                 </div>
                             </div >

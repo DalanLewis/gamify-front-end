@@ -9,20 +9,9 @@ import Playcard from './playcard'
 
 export default class Battlefield extends Component {
 
-    state = {
-        user: {
-            _id: '',
-            type: '',
-            nameInProgress: '',
-            imageInProgress: '',
-            healthInProgress: null,
-            hand: [],
-            draws: null
-        },
-        users: []
-    }
 
-    componentDidMount = async (a) => {
+
+    componentDidMount = async () => {
         try {
             const res = await fetch('http://localhost:8888/users')
             const user = await res.json()
@@ -33,22 +22,10 @@ export default class Battlefield extends Component {
         }
     }
 
-    renderBoss = () => {
-        if (this.state.users) {
-            this.state.users.filter((boss) => { return boss.type === 'boss' })
-                .map((boss) => <Bossman
-                    name={boss.nameInProgress}
-                    hp={boss.healthInProgress}
-                    image={boss.imageInProgress}
-                />)
-
-        }
-    }
-
     renderPlayers = () => {
         this.componentDidMount();
-        if (this.state.users) {
-            return this.state.users.filter((user) => { return user.type === 'player' })
+        if (this.props.state.users) {
+            return this.props.state.users.filter((user) => { return user.type === 'player' })
                 .map((player, index) => <Players
                     selectPlayer={this.props.selectPlayerButton}
                     player={player}
@@ -69,12 +46,12 @@ export default class Battlefield extends Component {
 
     render = () => {
         return (
-            <div className="ml-1 mr-1">
+            <div className="ml-1 mr-1" style={{ backgroundColor: '#ADADAD' }}>
                 <h3 className="d-flex justify-content-center">Players</h3>
                 <div className="d-flex justify-content-around">
                     {this.renderPlayers()}
                 </div>
-                <div className="container d-flex justiy-content-between border rounded" >
+                <div className="container d-flex justiy-content-between border rounded" style={{ backgroundColor: '#2E1114' }} >
                     <div className="container">
                         <Users
                             key={this.props.state.user.nameInProgress}
@@ -95,6 +72,7 @@ export default class Battlefield extends Component {
                             name={this.props.state.boss.nameInProgress}
                             image={this.props.state.boss.imageInProgress}
                             health={this.props.state.boss.healthInProgress}
+                            starting={this.props.state.boss.startingHealth}
                         />
                     </div>
                 </div>

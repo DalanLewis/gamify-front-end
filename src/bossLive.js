@@ -8,6 +8,7 @@ export default class Bossman extends Component {
                 <div style={{ width: '16rem', height: 'auto' }} className="card">
                     <div className="card-body">
                         <h4 className="card-title">{this.props.name}</h4>
+                        <h2>{this.props.starting}</h2><br/>
                         <h2>{this.props.health}</h2>
                         <figure>
                             <style dangerouslySetInnerHTML={{
