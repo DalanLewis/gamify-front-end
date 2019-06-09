@@ -8,7 +8,7 @@ export default class Admin extends Component {
     //submit for boss
     submitBoss = async () => {
         try {
-            await fetch('http://localhost:8888/users', {
+            await fetch('https://rain-gamify.herokuapp.com/users', {
                 method: 'post',
                 headers: {
                     "Content-type": "application/json; charset=UTF-8"
@@ -23,7 +23,7 @@ export default class Admin extends Component {
     //submit for player
     submitPlayer = async () => {
         try {
-            await fetch('http://localhost:8888/users', {
+            await fetch('https://rain-gamify.herokuapp.com/users', {
                 method: 'post',
                 headers: {
                     "Content-type": "application/json; charset=UTF-8"
@@ -40,7 +40,7 @@ export default class Admin extends Component {
     deletePlayer = async () => {
         const id = this.props.state.user._id;
         try {
-            await fetch('http://localhost:8888/users/' + id, {
+            await fetch('https://rain-gamify.herokuapp.com/users/' + id, {
                 method: 'delete',
                 headers: {
                     "Content-type": "application/json; charset=UTF-8"
@@ -57,7 +57,7 @@ export default class Admin extends Component {
         const id = this.props.state.user._id;
         if (this.props.state.user.nameInProgress !== 'No Player Selected') {
             try {
-                await fetch('http://localhost:8888/users/' + id, {
+                await fetch('https://rain-gamify.herokuapp.com/users/' + id, {
                     method: 'put',
                     headers: {
                         "Content-type": "application/json; charset=UTF-8"

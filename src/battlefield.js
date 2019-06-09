@@ -13,7 +13,7 @@ export default class Battlefield extends Component {
 
     componentDidMount = async () => {
         try {
-            const res = await fetch('http://localhost:8888/users')
+            const res = await fetch('https://rain-gamify.herokuapp.com/users')
             const user = await res.json()
             this.setState({ users: user })
         }

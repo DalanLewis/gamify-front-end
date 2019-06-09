@@ -33,7 +33,7 @@ export default class Hand extends Component {
         const id = this.props.state.user._id;
         if (this.props.state.user.nameInProgress !== 'No Player Selected') {
             try {
-                await fetch('http://localhost:8888/users/' + id, {
+                await fetch('https://rain-gamify.herokuapp.com/users/' + id, {
                     method: 'put',
                     headers: {
                         "Content-type": "application/json; charset=UTF-8"
@@ -52,7 +52,7 @@ export default class Hand extends Component {
         const id = this.state.user._id;
         if (this.state.user.nameInProgress !== 'No Player Selected') {
             try {
-                await fetch('http://localhost:8888/users/' + id, {
+                await fetch('https://rain-gamify.herokuapp.com/users/' + id, {
                     method: 'put',
                     headers: {
                         "Content-type": "application/json; charset=UTF-8"

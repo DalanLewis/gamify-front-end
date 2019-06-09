@@ -127,7 +127,7 @@ class App extends Component {
 
   userFetch = async () => {
     try {
-      const res = await fetch('http://localhost:8888/users')
+      const res = await fetch('https://rain-gamify.herokuapp.com/users')
       const users = await res.json()
       this.setState({ users })
 
@@ -145,7 +145,7 @@ class App extends Component {
     const id = this.state.user._id;
     if (this.state.user.nameInProgress !== 'No Player Selected') {
       try {
-        await fetch('http://localhost:8888/users/' + id, {
+        await fetch('https://rain-gamify.herokuapp.com/users/' + id, {
           method: 'put',
           headers: {
             "Content-type": "application/json; charset=UTF-8"
@@ -163,7 +163,7 @@ class App extends Component {
     this.state.users.forEach(async (user) => {
       const id = user._id;
       try {
-        await fetch('http://localhost:8888/users/' + id, {
+        await fetch('https://rain-gamify.herokuapp.com/' + id, {
           method: 'put',
           headers: {
             "Content-type": "application/json; charset=UTF-8"
